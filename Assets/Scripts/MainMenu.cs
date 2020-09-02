@@ -2,18 +2,27 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.WSA.Input;
 
 public class MainMenu : MonoBehaviour //this is the class of code that is called for Main Menu
 {
+    #region Public variables
     public string LoadScene = "GameScene";
-
     public Dropdown qualityDropdown;
-
     public Toggle fullscreenToggle;
+    public AudioMixer mixer;
+    public Slider musicSlider;
+    public Slider SFXSlider;
+    
+    #endregion
 
-
+    public void Awake()
+    {
+        LoadPlayerPrefs();
+    }
 
     public void Start()
     {
@@ -36,7 +45,7 @@ public class MainMenu : MonoBehaviour //this is the class of code that is called
             }
         }
 
-        if(!PlayerPrefs.HasKey("quality"))
+        if (!PlayerPrefs.HasKey("quality"))
         {
             PlayerPrefs.SetInt("Quality", 4);
             QualitySettings.SetQualityLevel(4);
@@ -47,12 +56,15 @@ public class MainMenu : MonoBehaviour //this is the class of code that is called
         }
 
         PlayerPrefs.Save();
+
+        
     }
 
     public void StartGame() // start game code
     {
         SceneManager.LoadScene("Game Scene"); // swaps the scene to game scene, name must be the same as scene name
     }
+
 
     public void SetFullScreen(bool fullscreen) // for entering full screen and exiting
     {
@@ -74,6 +86,18 @@ public class MainMenu : MonoBehaviour //this is the class of code that is called
 
     }
 
+    public void SetMusicVolume(float value)
+    {
+        mixer.SetFloat("MusicVol", value);
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        mixer.SetFloat("SFXVol", value);
+    }
+
+    
+
     #region save and load player prefs
     public void SavePlayerPrefs() // saves player preferences for next load
     {
@@ -88,20 +112,56 @@ public class MainMenu : MonoBehaviour //this is the class of code that is called
             PlayerPrefs.SetInt("fullscreen", 0); // 0 bool for false
         }
 
+        float musicVol;
+        if (mixer.GetFloat("MusicVol", out musicVol))
+        {
+            PlayerPrefs.SetFloat("MusicVol", musicVol);
+        }
+        float SFXVol;
+        if (mixer.GetFloat("SFXVol", out SFXVol))
+        {
+            PlayerPrefs.SetFloat("SFXVol", SFXVol);
+        }
+
+
         PlayerPrefs.Save();
     }
 
     public void LoadPlayerPrefs()
     {
-        qualityDropdown.value = PlayerPrefs.GetInt("quality");
-
-        if (PlayerPrefs.GetInt("fullscreen") == 0)
+        if (PlayerPrefs.HasKey("quality"))
         {
-            fullscreenToggle.isOn = false;// set gui toggle off
+            int quality = PlayerPrefs.GetInt("quality");
+            qualityDropdown.value = quality;
+            if (QualitySettings.GetQualityLevel() != quality)
+            {
+                ChangeQuality(quality);
+            }
         }
-        else
+
+        if (PlayerPrefs.HasKey("fullscreen"))
         {
-            fullscreenToggle.isOn = true; //set gui toggle on
+            if (PlayerPrefs.GetInt("fullscreen") == 0)
+            {
+                fullscreenToggle.isOn = false;// set gui toggle off
+            }
+            else
+            {
+                fullscreenToggle.isOn = true; //set gui toggle on
+            }
+        }
+        //load audio sliders
+        if (PlayerPrefs.HasKey("MusicVol"))
+        {
+            float musicVol = PlayerPrefs.GetFloat("MusicVol");
+            musicSlider.value = musicVol;
+            mixer.SetFloat("MusicVol", musicVol);
+        }
+        if (PlayerPrefs.HasKey("SFXVol"))
+        {
+            float SFXVol = PlayerPrefs.GetFloat("SFXVol");
+            SFXSlider.value = SFXVol;
+            mixer.SetFloat("SFXVol", SFXVol);
         }
     }
 
