@@ -10,7 +10,7 @@ using UnityEngine.XR.WSA.Input;
 public class MainMenu : MonoBehaviour //this is the class of code that is called for Main Menu
 {
     #region Public variables
-    public string LoadScene = "GameScene";
+    
     public Dropdown qualityDropdown;
     public Toggle fullscreenToggle;
     public AudioMixer mixer;
@@ -60,9 +60,31 @@ public class MainMenu : MonoBehaviour //this is the class of code that is called
         
     }
 
-    public void StartGame() // start game code
+    public Image progressBar;
+    public Text progressBarText;
+
+    public void LoadLevel(int sceneIndex)
     {
-        SceneManager.LoadScene("Game Scene"); // swaps the scene to game scene, name must be the same as scene name
+        StartCoroutine(LoadAsynchronously(sceneIndex));
+    }
+
+    IEnumerator LoadAsynchronously(int sceneIndex)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+
+        while (!operation.isDone)
+        {
+            Debug.Log(operation.progress);
+
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+
+            progressBar.fillAmount = progress;
+            progressBarText.text = Mathf.RoundToInt(progress * 100) + "%";
+
+
+
+            yield return null;
+        }
     }
 
 
