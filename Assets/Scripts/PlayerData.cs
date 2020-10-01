@@ -4,13 +4,14 @@ using UnityEngine;
 
 [System.Serializable]
 public class PlayerData
-{
+{ /*
     public int level;
     public int health;
     public float[] position; // = vector3
-
+    */
     public PlayerData(Player player)
     {
+        /*
         level = player.level;
         health = player.health;
 
@@ -18,6 +19,7 @@ public class PlayerData
         position[0] = player.transform.position.x;
         position[1] = player.transform.position.y;
         position[2] = player.transform.position.z;
+        */
     }
-
+    
 }
