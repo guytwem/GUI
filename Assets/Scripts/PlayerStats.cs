@@ -1,30 +1,56 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
+public struct BaseStats
+{
+    public string baseStatName;
+    public int defaultStat;
+    public int levelUpStat;
+    public int additionalStat;
+
+    public int finalStat 
+    { 
+        get 
+        {
+            return defaultStat + additionalStat + levelUpStat;
+        }
+    }
+    
+}
+
 /// <summary>
 /// stores the players stats
 /// </summary>
 [System.Serializable]
 public class PlayerStats
 {
+    
+
+    
+
+
     [Header("Player Movement")]
-    [SerializeField] public float speed = 6F;
-    [SerializeField] public float sprintSpeed = 12f;
-    [SerializeField] public float crouchSpeed = 3f;
-    [SerializeField] public float jumpHeight = 1.0f;
-    [SerializeField] public float gravity = -9.81f;
+    public float speed = 6F;
+    public float sprintSpeed = 12f;
+    public float crouchSpeed = 3f;
+    public float jumpHeight = 1.0f;
+    public float gravity = -9.81f;
 
     [Header("Current Stats")]
-    [SerializeField] public int level;
-    [SerializeField] public float maxHealth = 100;
-    [SerializeField] public float maxMana = 100;
-    [SerializeField] public float currentMana = 100;
-    [SerializeField] public float currentStamina = 100;
-    [SerializeField] public float maxStamina = 100;
-    [SerializeField] private float _currentHealth = 100;
+     public int level;
+     public float maxHealth = 100;
+     public float regenHealth = 5f;
+     public float maxMana = 100;
+     public float currentMana = 100;
+     public float currentStamina = 100;
+     public float maxStamina = 100;
+     
 
-    public GameObject deathScreen;
-    
-    
+    [Header("Base Stats")]
+    public int baseStatePoints = 10;
+    public BaseStats[] baseStats;
+
+    private float _currentHealth = 100;
     public float CurrentHealth
     {
         get
@@ -33,7 +59,8 @@ public class PlayerStats
         }
         set
         {
-            _currentHealth = value;
+            _currentHealth = Mathf.Clamp(value, 0, maxHealth);
+            
             if (healthHearts != null)
             {
                 healthHearts.UpdatedHearts(value, maxHealth);
@@ -42,12 +69,22 @@ public class PlayerStats
     }
     public QuarterHearts healthHearts;
 
-    public void Update()
+    public bool SetStats(int statIndex, int amount)
     {
-        if (_currentHealth <= 0f)
+        //increasing
+        if (amount > 0 && baseStatePoints - amount < 0)
         {
-            Debug.Log("Player Has Died!");
-            deathScreen.SetActive(true);
+            return false;
         }
+        else if (amount < 0 && baseStats[statIndex].additionalStat + amount < 0) // decreasing
+        {
+            return false;
+        }
+
+        baseStats[statIndex].additionalStat += amount;
+        baseStatePoints -= amount;
+
+
+        return true;
     }
 }
