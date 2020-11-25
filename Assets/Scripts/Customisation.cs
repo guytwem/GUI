@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Customisation : MonoBehaviour
 {
+
+    public bool showOnGUI = true;
+
     [SerializeField] private Player player;
 
 
@@ -20,6 +24,7 @@ public class Customisation : MonoBehaviour
 
     public Vector2 scrollPosition = Vector2.zero;
 
+    [SerializeField] string sceneToPlay = "Controls";
 
 
     public List<Texture2D>[] partsTexture = new List<Texture2D>[Enum.GetNames(typeof(CustomiseParts)).Length];
@@ -54,10 +59,22 @@ public class Customisation : MonoBehaviour
         {
             Debug.LogError("Player in Customisation is null");
         }
+        else
+        {
+            if (player.customisationTextureIndex.Length != 0)
+            {
+                currentPartsTextureIndex = player.customisationTextureIndex;
+            }
 
-        if(playerProfessions != null && playerProfessions.Length > 0)
+        }
+        if (playerProfessions != null && playerProfessions.Length > 0)
         {
             player.Profession = playerProfessions[0];
+        }
+
+        foreach (string part in Enum.GetNames(typeof(CustomiseParts)))
+         {
+            SetTexture(part,0);
         }
 
     }
@@ -85,10 +102,10 @@ public class Customisation : MonoBehaviour
         mats[partIndex].mainTexture = partsTexture[partIndex][currentTexture];
         characterRenderer.materials = mats;
     }
-    
 
 
-    
+
+
 
     void SetTexture(string type, int direction)
     {
@@ -98,7 +115,7 @@ public class Customisation : MonoBehaviour
 
         switch (type)
         {
-            case "skin":
+            case "Skin":
                 partIndex = 0;
                 break;
             case "Hair":
@@ -117,7 +134,7 @@ public class Customisation : MonoBehaviour
                 partIndex = 5;
                 break;
             default:
-                Debug.LogError("Invalid set texture type");
+                Debug.LogError("Invalid set texture type: " + type);
                 break;
 
         }
@@ -141,20 +158,58 @@ public class Customisation : MonoBehaviour
 
         mats[partIndex].mainTexture = partsTexture[partIndex][currentTexture];
 
-            characterRenderer.materials = mats;
+        characterRenderer.materials = mats;
+
+    }
+
+    public void SaveCharacter()
+    {
+        player.customisationTextureIndex = currentPartsTextureIndex;
+        PlayerBinarySave.SavePlayerData(player);
+
+
+        /*PlayerPrefs.SetInt("Skin Index", currentPartsTextureIndex[0]);
+        PlayerPrefs.SetInt("Hair Index", currentPartsTextureIndex[1]);
+        PlayerPrefs.SetInt("Mouth Index", currentPartsTextureIndex[2]);
+        PlayerPrefs.SetInt("Eyes Index", currentPartsTextureIndex[3]);
+        PlayerPrefs.SetInt("Clothes Index", currentPartsTextureIndex[4]);
+        PlayerPrefs.SetInt("Armour Index", currentPartsTextureIndex[5]);
+
+        //to do on our own
+        //PlayerPrefs.SetString("Character Name", characterName);
+        
+        //final stat = defaultStat + additionalStat + levelUpStat
+
+        for (int i = 0; i < player.playerStats.baseStats.Length; i++)
+        {
+            PlayerPrefs.SetInt(player.playerStats.baseStats[i].baseStatName + " defaultStat", player.playerStats.baseStats[i].defaultStat);
+            PlayerPrefs.SetInt(player.playerStats.baseStats[i].baseStatName + " additionalStat", player.playerStats.baseStats[i].additionalStat);
+            PlayerPrefs.SetInt(player.playerStats.baseStats[i].baseStatName + " levelUpStat", player.playerStats.baseStats[i].levelUpStat);
+        }
+
+        PlayerPrefs.SetString("Character Profession", player.Profession.ProfessionName);*/
 
     }
 
     private void OnGUI()
     {
+        if(showOnGUI)
+        {
+            CustomiseOnGUI();
 
-        CustomiseOnGUI();
-
-        StatsOnGUI();
+            StatsOnGUI();
 
 
-        ProfessionsOnGUI();
+            ProfessionsOnGUI();
 
+            if (GUI.Button(new Rect(10, 250, 120, 20), "Save & Play"))
+            {
+                SaveCharacter();
+                SceneManager.LoadScene(sceneToPlay);
+            }
+        }
+
+        
 
     }
 
@@ -193,11 +248,11 @@ public class Customisation : MonoBehaviour
     private void StatsOnGUI()
     {
         float currentHeight = 40f;
-        GUI.Box(new Rect(Screen.width - 170, 10, 155, 210), "Stats : " + player.playerStats.baseStatePoints);
+        GUI.Box(new Rect(Screen.width - 170, 10, 155, 210), "Stats : " + player.playerStats.stats.baseStatePoints);
 
-        for (int i = 0; i < player.playerStats.baseStats.Length; i++)
+        for (int i = 0; i < player.playerStats.stats.baseStats.Length; i++)
         {
-            BaseStats stat = player.playerStats.baseStats[i];
+            BaseStats stat = player.playerStats.stats.baseStats[i];
 
             if (GUI.Button(new Rect(Screen.width - 165, currentHeight + i * 30, 20, 20), "-"))
             {

@@ -1,23 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
     [Header("General")]
+    [SerializeField] private Player player;
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cam;
-    [SerializeField] public float turnSmoothTime = 0.1f;
-    private float turnSmoothVelocity;
+    [SerializeField] private float turnSmoothTime = 0.1f;
+    [SerializeField] private float gravity = -9.81f;
+    float turnSmoothVelocity;
+
+    [SerializeField] private Stamina stamina;
 
     [SerializeField] private Vector3 playerVelocity;
 
-    public PlayerStats playerStats;
+    private bool isGrounded;
 
+    private void FixedUpdate()
+    {
+        isGrounded = IsGrounded();
+    }
 
-
-
-
+   
 
     // Update is called once per frame
     void Update()
@@ -41,37 +48,40 @@ public class ThirdPersonMovement : MonoBehaviour
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            float movementSpeed = playerStats.speed;
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            float movementSpeed = player.playerStats.stats.speed;
+            if (player.playerStats.stats.currentStamina > 0 && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
 
             {
-                movementSpeed = playerStats.sprintSpeed;
+                player.disableStaminaRegenTime = Time.time;
+                player.playerStats.stats.currentStamina -= player.StaminaDegen * Time.deltaTime;
+                movementSpeed = player.playerStats.stats.sprintSpeed;
+                stamina.StaminaChange();
             }
-            else
+            else if(Input.GetKey(KeyCode.C))
             {
-                movementSpeed = playerStats.crouchSpeed;
+                movementSpeed = player.playerStats.stats.crouchSpeed;
             }
-            controller.Move(moveDir * playerStats.speed * Time.deltaTime);
+            controller.Move(moveDir * movementSpeed * Time.deltaTime);
         }
     }
     private void Jump()
     {
-        if (controller.isGrounded && playerVelocity.y < 0)
+        if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
 
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            playerVelocity.y += Mathf.Sqrt(playerStats.jumpHeight * -3.0f * playerStats.gravity);
+            playerVelocity.y += Mathf.Sqrt(player.playerStats.stats.jumpHeight * -3.0f * gravity);
         }
 
-        playerVelocity.y += playerStats.gravity * Time.deltaTime;
+        playerVelocity.y += gravity * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
 
-    bool isGrounded()
+    bool IsGrounded()
     {
         Debug.DrawRay(transform.position, -Vector3.up * ((controller.height * 0.5f) * 1.1f), Color.red);
         int layerMask = 1 << 8;
@@ -79,7 +89,7 @@ public class ThirdPersonMovement : MonoBehaviour
         layerMask = ~layerMask;
 
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, controller.radius, -Vector3.up, out hit, controller.height + 0.1f - controller.bounds.extents.x, layerMask))
+        if (Physics.SphereCast(transform.position, controller.radius, -Vector3.up, out hit, controller.bounds.extents.y + 0.1f - controller.bounds.extents.x, layerMask))
         {
             return true;
         }
@@ -89,7 +99,7 @@ public class ThirdPersonMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position + (-Vector3.up * (controller.bounds.extents.y + 0.1f - controller.bounds.extents.x)), controller.radius);
+        Gizmos.DrawWireSphere(transform.position + (-Vector3.up * (controller.bounds.extents.y + 0.1f - controller.bounds.extents.x)), controller.radius);
     }
-
+    
 }

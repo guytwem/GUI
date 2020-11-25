@@ -4083,27 +4083,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793833908}
   m_CullTransparentMesh: 0
---- !u!1 &799081775 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5327462653322799867, guid: 6ad34f9e9c300404a90dc855291af6b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 4237638866844256616}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &799081777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 799081775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74b631bc8923bc54fb8896a97ac2f636, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  slowSpeed: 1
-  faceingAngle: 30
 --- !u!1 &811224082
 GameObject:
   m_ObjectHideFlags: 0
@@ -5146,46 +5125,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats:
-    speed: 6
-    sprintSpeed: 12
-    crouchSpeed: 3
-    jumpHeight: 1
-    gravity: -9.81
-    level: 0
-    maxHealth: 100
-    regenHealth: 5
-    maxMana: 100
-    currentMana: 100
-    currentStamina: 100
-    maxStamina: 100
-    baseStatePoints: 10
-    baseStats:
-    - baseStatName: Strength
-      defaultStat: 0
-      levelUpStat: 0
-      additionalStat: 0
-    - baseStatName: Dexterity
-      defaultStat: 0
-      levelUpStat: 0
-      additionalStat: 0
-    - baseStatName: Intelligence
-      defaultStat: 0
-      levelUpStat: 0
-      additionalStat: 0
-    - baseStatName: Agility
-      defaultStat: 0
-      levelUpStat: 0
-      additionalStat: 0
-    - baseStatName: Resistance
-      defaultStat: 0
-      levelUpStat: 0
-      additionalStat: 0
-    - baseStatName: Constitution
-      defaultStat: 0
-      levelUpStat: 0
-      additionalStat: 0
+    stats:
+      speed: 6
+      sprintSpeed: 12
+      crouchSpeed: 3
+      jumpHeight: 1
+      gravity: -9.81
+      level: 0
+      maxHealth: 100
+      regenHealth: 5
+      maxMana: 100
+      currentMana: 100
+      currentStamina: 100
+      maxStamina: 100
+      baseStatePoints: 10
+      baseStats:
+      - baseStatName: Strength
+        defaultStat: 0
+        levelUpStat: 0
+        additionalStat: 0
+      - baseStatName: Dexterity
+        defaultStat: 0
+        levelUpStat: 0
+        additionalStat: 0
+      - baseStatName: Intelligence
+        defaultStat: 0
+        levelUpStat: 0
+        additionalStat: 0
+      - baseStatName: Agility
+        defaultStat: 0
+        levelUpStat: 0
+        additionalStat: 0
+      - baseStatName: Resistance
+        defaultStat: 0
+        levelUpStat: 0
+        additionalStat: 0
+      - baseStatName: Constitution
+        defaultStat: 0
+        levelUpStat: 0
+        additionalStat: 0
     healthHearts: {fileID: 0}
   RegenCooldown: 5
+  customisationTextureIndex: 000000000000000000000000000000000000000000000000
 --- !u!4 &966775432
 Transform:
   m_ObjectHideFlags: 0
@@ -8725,9 +8706,9 @@ CanvasRenderer:
   m_CullTransparentMesh: 0
 --- !u!137 &1506036527 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 432648975784191605, guid: 6ad34f9e9c300404a90dc855291af6b0,
+  m_CorrespondingSourceObject: {fileID: 7048347764254704128, guid: 55d413f5ab986634ca253bef4807baf1,
     type: 3}
-  m_PrefabInstance: {fileID: 4237638866844256616}
+  m_PrefabInstance: {fileID: 6710028204724956445}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1512630862
 GameObject:
@@ -10157,6 +10138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d410c7f90cb7e142a52b4fc65593944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showOnGUI: 1
   player: {fileID: 966775431}
   TextureLocation: Character/
   playerProfessions:
@@ -10246,6 +10228,7 @@ MonoBehaviour:
       additionalStat: 0
   characterRenderer: {fileID: 1506036527}
   scrollPosition: {x: 0, y: 0}
+  sceneToPlay: Controls
 --- !u!4 &1685268021
 Transform:
   m_ObjectHideFlags: 0
@@ -12317,72 +12300,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139019224}
   m_CullTransparentMesh: 0
---- !u!1001 &4237638866844256616
+--- !u!1001 &6710028204724956445
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5327462653322799867, guid: 6ad34f9e9c300404a90dc855291af6b0,
-        type: 3}
-      propertyPath: m_Name
-      value: Warrior
-      objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.034
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.834
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -9.123
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0.9995303
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.030644864
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 176.488
       objectReference: {fileID: 0}
-    - target: {fileID: 9202449251628603624, guid: 6ad34f9e9c300404a90dc855291af6b0,
+    - target: {fileID: 1757665919359679645, guid: 55d413f5ab986634ca253bef4807baf1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3332419700228918926, guid: 55d413f5ab986634ca253bef4807baf1,
+        type: 3}
+      propertyPath: m_Name
+      value: Warrior
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6ad34f9e9c300404a90dc855291af6b0, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 55d413f5ab986634ca253bef4807baf1, type: 3}
