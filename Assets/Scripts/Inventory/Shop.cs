@@ -31,7 +31,7 @@ public class Shop : MonoBehaviour
         scr.x = Screen.width / 16;
         scr.y = Screen.height / 9;
 
-        if(showShop)
+        if(showShop == true)
         {
             for (int i = 0; i < shopInventory.Count; i++)
             {

@@ -28,6 +28,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private PlayerProfession profession;
 
+    [SerializeField] private GameObject deathScreen;
+    [SerializeField] private GameObject deathText;
+    [SerializeField] private GameObject respawnButton;
+    [SerializeField] private GameObject pauseMenu;
+
+    [SerializeField] private GameObject character;
+
+
     public PlayerProfession Profession 
     { 
         get
@@ -43,7 +51,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         //Load player data
-        if(SceneManager.GetActiveScene().name != "Customise")
+        if (SceneManager.GetActiveScene().name != "Customise")
         {
             PlayerData loadedPlayer = PlayerBinarySave.LoadPlayerData();
             if (loadedPlayer != null)
@@ -53,8 +61,16 @@ public class Player : MonoBehaviour
                 customisationTextureIndex = loadedPlayer.customisationTextureIndex;
             }
         }
-        
-        
+
+
+    }
+
+    private void Start()
+    {
+        deathScreen.SetActive(false);
+        deathText.SetActive(false);
+        respawnButton.SetActive(false);
+        pauseMenu.SetActive(false);
     }
 
     public void ChangeProfession(PlayerProfession cProfession)
@@ -80,6 +96,15 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Interact();
+
+        Death();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+        }
+        
 
         #region health regen
         if (!disableRegen)
@@ -173,6 +198,38 @@ public class Player : MonoBehaviour
 
             
         }
+    }
+
+    private void Death()
+    {
+        if (playerStats.CurrentHealth == 0)
+        {
+            Time.timeScale = 0;
+            deathScreen.SetActive(true);
+            deathText.SetActive(true);
+            respawnButton.SetActive(true);
+        }
+    }
+
+    public void Respawn()
+    {
+        Time.timeScale = 1;
+        playerStats.CurrentHealth = playerStats.stats.maxHealth;
+        deathScreen.SetActive(false);
+        deathText.SetActive(false);
+        respawnButton.SetActive(false);
+        Vector3 respawnPosition = new Vector3(0, 1, 0);
+        respawnPosition = character.transform.position;
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
     }
 
     public void OnGUI()

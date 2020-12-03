@@ -170,13 +170,15 @@ public class Inventory : MonoBehaviour
 
     }
 
+    
+
     private void OnGUI()
     {
 
         
         scr.x = Screen.width / 16;
         scr.y = Screen.height / 9;
-        if (showInventory)
+        if (showInventory == true)
         {
             GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");
 
@@ -202,13 +204,13 @@ public class Inventory : MonoBehaviour
             }
 
         }
-        if(showInventory == false)
+        if(Input.GetKeyDown(KeyCode.I) && showInventory == false)
         {
-            if (GUI.Button(new Rect(1.5f * scr.x, 8.5f * scr.y, scr.x, .5f * scr.y), "Open Inventory"))
-            {
+            //if (GUI.Button(new Rect(1.5f * scr.x, 8.5f * scr.y, scr.x, .5f * scr.y), "Open Inventory"))
+            //{
                 showInventory = true;
 
-            }
+            //}
         }
         
     }

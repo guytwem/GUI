@@ -4265,7 +4265,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4835,7 +4835,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -7228,7 +7228,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -7585,8 +7585,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdfd47b6e10c3e47bfaa63334479370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 3
-  health: 55
+  playerStats:
+    stats:
+      speed: 6
+      sprintSpeed: 12
+      crouchSpeed: 3
+      jumpHeight: 1
+      level: 0
+      maxHealth: 100
+      regenHealth: 5
+      maxMana: 100
+      currentMana: 100
+      currentStamina: 100
+      regenStamina: 5
+      maxStamina: 100
+      baseStatePoints: 10
+      baseStats: []
+    healthHearts: {fileID: 0}
+  RegenCooldown: 5
+  disableStaminaRegenTime: 0
+  StaminaRegenCooldown: 1
+  StaminaDegen: 30
+  customisationTextureIndex: 
+  profession:
+    ProfessionName: profession
+    AbilityName: ability
+    AbilityDescription: Does an Action
+    defaultStats: []
+  deathScreen: {fileID: 0}
+  deathText: {fileID: 0}
+  respawnButton: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  character: {fileID: 0}
 --- !u!4 &2130507290
 Transform:
   m_ObjectHideFlags: 0

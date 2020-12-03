@@ -9,6 +9,7 @@ public class QuestNPC : NPC
 
     [SerializeField] protected Quest NPCsQuest;
 
+    [SerializeField] private Dialogue dialogue;
 
     public void Start()
     {
@@ -21,10 +22,27 @@ public class QuestNPC : NPC
     }
     public override void Interact()
     {
-        switch (NPCsQuest.goal.questState) 
+        if(NPCsQuest.goal.questState == QuestState.Available)
+        {
+            dialogue.showDialogue = true;
+            dialogue.currentLineIndex = 0;
+            if(dialogue.currentLineIndex == 2)
+            {
+                dialogue.showDialogue = false;
+            }
+        }
+        if (NPCsQuest.goal.questState == QuestState.Claimed)
+        {
+            dialogue.showDialogue = true;
+            dialogue.currentLineIndex = 2;
+            
+        }
+
+        switch (NPCsQuest.goal.questState)
         {
             case QuestState.Available:
                 questManager.AcceptQuest(NPCsQuest);
+                
                 Debug.Log("Accepted");
                 break;
             case QuestState.Active:
@@ -39,17 +57,27 @@ public class QuestNPC : NPC
                 }
                 break;
             case QuestState.Claimed:
-                //some dialog 
-                //already completed quest
+                dialogue.currentLineIndex = 2;
                 break;
         }
-        
 
-        if(NPCsQuest.goal.questState == QuestState.Available)
+
+        if (NPCsQuest.goal.questState == QuestState.Available)
         {
             questManager.AcceptQuest(NPCsQuest);
-            
+
         }
-        
+
+    }
+    private void OnGUI()
+    {
+        if (NPCsQuest.goal.questState == QuestState.Active)
+        {
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "Quest Accepted: Needy Pete Needs 5 Potions");
+        }
+        if (NPCsQuest.goal.questState == QuestState.Claimed)
+        {
+            GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "Quest Completed: Congrats");
+        }
     }
 }
