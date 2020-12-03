@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.XR.WSA.Input;
+
 
 public class MainMenu : MonoBehaviour //this is the class of code that is called for Main Menu
 {
@@ -190,22 +190,5 @@ public class MainMenu : MonoBehaviour //this is the class of code that is called
     #endregion
 
 
-    public void OnGUI() // When unity processes the GUI this is called
-    {
-        GUI.Box(new Rect(10, 10, 100, 120), "Testing Box"); // Adds and positions a box, Rect(x,y,width,height)
-        
-        
-        if(GUI.Button(new Rect(20,40,80,20), "Press me")) // positions and adds a press me button to the gui
-        {
-            Debug.Log("Press me button got pressed"); // logs when the button is pressed
-        }
-
-        if (GUI.Button(new Rect(20, 70, 80, 20), "Press me 2")) // positions and adds a press me button to the gui
-        {
-            Debug.Log("Press me 2 button got pressed"); // logs when the button is pressed
-            QuitGame();
-        }
-
-     
-    }
+   
 }
