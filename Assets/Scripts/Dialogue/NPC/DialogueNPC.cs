@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DialogueNPC : NPC
 {
-    [SerializeField] private Dialogue dialogue;
+    [SerializeField] private DialogueOptions dialogue;
 
     
     //[SerializeField] public protected string[] text;

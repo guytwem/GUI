@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class QuestDialogue : Dialogue
 {
-   protected override void EndDialogue()
-    {
-
-    }
+   
 }

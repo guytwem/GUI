@@ -21,10 +21,7 @@ public class QuestManager : MonoBehaviour
         currentQuest.goal.questState = QuestState.Active;
     }
 
-    public void DeclineQuest()
-    {
-
-    }
+    
 
     public void ClaimQuest()
     {
